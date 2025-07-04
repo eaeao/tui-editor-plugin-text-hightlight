@@ -6,9 +6,9 @@ const { name, version, author, license } = require('./package.json');
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const ESLintPlugin = require('eslint-webpack-plugin');
+// const ESLintPlugin = require('eslint-webpack-plugin');
 
-const filename = `toastui-${name.replace(/@toast-ui\//, '')}`;
+const filename = `toastui-editor-plugin-text-highlight`;
 
 function getOutputConfig(isProduction, isCDN, minify) {
   const defaultConfig = {
@@ -113,11 +113,11 @@ module.exports = (env) => {
       new MiniCssExtractPlugin({
         filename: () => `${filename}${minify ? '.min' : ''}.css`,
       }),
-      new ESLintPlugin({
-        extensions: ['js', 'ts'],
-        exclude: ['node_modules', 'dist'],
-        failOnError: isProduction,
-      }),
+      // new ESLintPlugin({
+      //   extensions: ['js', 'ts'],
+      //   exclude: ['node_modules', 'dist'],
+      //   failOnError: isProduction,
+      // }),
     ],
     optimization: getOptimizationConfig(isProduction, minify),
   };

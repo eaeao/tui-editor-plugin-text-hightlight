@@ -2,90 +2,90 @@ import type { I18n } from '@toast-ui/editor';
 
 export function addLangs(i18n: I18n) {
   i18n.setLanguage('ar', {
-    'Text color': 'لون النص',
+    'Highlight color': 'لون التمييز',
   });
 
   i18n.setLanguage(['cs', 'cs-CZ'], {
-    'Text color': 'Barva textu',
+    'Highlight color': 'Barva zvýraznění',
   });
 
   i18n.setLanguage(['de', 'de-DE'], {
-    'Text color': 'Textfarbe',
+    'Highlight color': 'Hervorhebungsfarbe',
   });
 
   i18n.setLanguage(['en', 'en-US'], {
-    'Text color': 'Text color',
+    'Highlight color': 'Highlight color',
   });
 
   i18n.setLanguage(['es', 'es-ES'], {
-    'Text color': 'Color del texto',
+    'Highlight color': 'Color de resaltado',
   });
 
   i18n.setLanguage(['fi', 'fi-FI'], {
-    'Text color': 'Tekstin väri',
+    'Highlight color': 'Korostusväri',
   });
 
   i18n.setLanguage(['fr', 'fr-FR'], {
-    'Text color': 'Couleur du texte',
+    'Highlight color': 'Couleur de surlignage',
   });
 
   i18n.setLanguage(['gl', 'gl-ES'], {
-    'Text color': 'Cor do texto',
+    'Highlight color': 'Cor de realce',
   });
 
   i18n.setLanguage(['hr', 'hr-HR'], {
-    'Text color': 'Boja teksta',
+    'Highlight color': 'Boja isticanja',
   });
 
   i18n.setLanguage(['it', 'it-IT'], {
-    'Text color': 'Colore del testo',
+    'Highlight color': 'Colore di evidenziazione',
   });
 
   i18n.setLanguage(['ja', 'ja-JP'], {
-    'Text color': '文字色相',
+    'Highlight color': 'ハイライト色',
   });
 
   i18n.setLanguage(['ko', 'ko-KR'], {
-    'Text color': '글자 색상',
+    'Highlight color': '하이라이트 색상',
   });
 
   i18n.setLanguage(['nb', 'nb-NO'], {
-    'Text color': 'Tekstfarge',
+    'Highlight color': 'Uthevingsfarge',
   });
 
   i18n.setLanguage(['nl', 'nl-NL'], {
-    'Text color': 'Tekstkleur',
+    'Highlight color': 'Markeringskleur',
   });
 
   i18n.setLanguage(['pl', 'pl-PL'], {
-    'Text color': 'Kolor tekstu',
+    'Highlight color': 'Kolor podświetlenia',
   });
 
   i18n.setLanguage(['pt', 'pt-BR'], {
-    'Text color': 'Cor do texto',
+    'Highlight color': 'Cor de destaque',
   });
 
   i18n.setLanguage(['ru', 'ru-RU'], {
-    'Text color': 'Цвет текста',
+    'Highlight color': 'Цвет выделения',
   });
 
   i18n.setLanguage(['sv', 'sv-SE'], {
-    'Text color': 'Textfärg',
+    'Highlight color': 'Markeringsfärg',
   });
 
   i18n.setLanguage(['tr', 'tr-TR'], {
-    'Text color': 'Metin rengi',
+    'Highlight color': 'Vurgulama rengi',
   });
 
   i18n.setLanguage(['uk', 'uk-UA'], {
-    'Text color': 'Колір тексту',
+    'Highlight color': 'Колір виділення',
   });
 
   i18n.setLanguage('zh-CN', {
-    'Text color': '文字颜色',
+    'Highlight color': '高亮颜色',
   });
 
   i18n.setLanguage('zh-TW', {
-    'Text color': '文字顏色',
+    'Highlight color': '螢光標示顏色',
   });
 }

@@ -1,14 +1,27 @@
 {
-  "extends": "../../tsconfig.json",
-  "include": ["src/**/*.ts", "src/**/*.js", "types/**/*"],
-  "exclude": ["node_modules"],
   "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "allowJs": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "noEmit": false,
+    "declaration": true,
+    "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
       "@t/*": ["types/*"]
     },
-    "typeRoots": ["./types", "node_modules/@types", "../../node_modules/@types"],
-    "lib": ["esnext", "dom", "dom.iterable"]
-  }
+    "typeRoots": ["./types", "./node_modules/@types"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "include": ["src/**/*.ts", "src/**/*.js", "types/**/*"],
+  "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]
 }

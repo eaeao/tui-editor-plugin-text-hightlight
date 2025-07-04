@@ -1,4 +1,4 @@
-import ColorPicker from 'tui-color-picker';
+import * as ColorPicker from 'tui-color-picker';
 import type { Context } from '@toast-ui/toastmark';
 import type { PluginContext, PluginInfo, HTMLMdNode, I18n } from '@toast-ui/editor';
 import type { Transaction, Selection, TextSelection } from 'prosemirror-state';
@@ -17,15 +17,15 @@ function createApplyButton(text: string) {
   button.textContent = text;
 
   return button;
-}
+} 
 
 function createToolbarItemOption(colorPickerContainer: HTMLDivElement, i18n: I18n) {
   return {
-    name: 'color',
-    tooltip: i18n.get('Text color'),
-    className: `${PREFIX}toolbar-icons color`,
+    name: 'highlight',
+    tooltip: i18n.get('Highlight color'),
+    className: `${PREFIX}toolbar-icons highlight`,
     popup: {
-      className: `${PREFIX}popup-color`,
+      className: `${PREFIX}popup-highlight`,
       body: colorPickerContainer,
       style: { width: 'auto' },
     },
@@ -49,6 +49,32 @@ function createSelection(
     : SelectionClass.create(doc, mappedFrom, mappedTo);
 }
 
+function mergeStyles(existingStyle: string, newStyle: string): string {
+  if (!existingStyle) return newStyle;
+  
+  // Parse existing styles
+  const existingStyles = existingStyle.split(';')
+    .filter(style => style.trim())
+    .reduce((acc, style) => {
+      const [key, value] = style.split(':').map(s => s.trim());
+      if (key && value) {
+        acc[key] = value;
+      }
+      return acc;
+    }, {} as Record<string, string>);
+  
+  // Parse new style
+  const [newKey, newValue] = newStyle.split(':').map(s => s.trim());
+  if (newKey && newValue) {
+    existingStyles[newKey] = newValue;
+  }
+  
+  // Rebuild style string
+  return Object.entries(existingStyles)
+    .map(([key, value]) => `${key}: ${value}`)
+    .join('; ');
+}
+
 function getCurrentEditorEl(colorPickerEl: HTMLElement, containerClassName: string) {
   const editorDefaultEl = findParentByClassName(colorPickerEl, `${PREFIX}defaultUI`)!;
 
@@ -66,13 +92,13 @@ let currentEditorEl: HTMLElement;
 
 // @TODO: add custom syntax for plugin
 /**
- * Color syntax plugin
+ * Highlight color syntax plugin
  * @param {Object} context - plugin context for communicating with editor
  * @param {Object} options - options for plugin
  * @param {Array.<string>} [options.preset] - preset for color palette (ex: ['#181818', '#292929'])
  * @param {boolean} [options.useCustomSyntax=false] - whether use custom syntax or not
  */
-export default function colorSyntaxPlugin(
+export default function highlightSyntaxPlugin(
   context: PluginContext,
   options: PluginOptions = {}
 ): PluginInfo {
@@ -100,7 +126,7 @@ export default function colorSyntaxPlugin(
 
       currentEditorEl = getCurrentEditorEl(container, containerClassName);
 
-      eventEmitter.emit('command', 'color', { selectedColor });
+      eventEmitter.emit('command', 'highlight', { selectedColor });
       eventEmitter.emit('closePopup');
       // force the current editor to focus for preventing to lose focus
       currentEditorEl.focus();
@@ -114,15 +140,35 @@ export default function colorSyntaxPlugin(
 
   return {
     markdownCommands: {
-      color: ({ selectedColor }, { tr, selection, schema }, dispatch) => {
+      highlight: ({ selectedColor }, { tr, selection, schema }, dispatch) => {
         if (selectedColor) {
           const slice = selection.content();
           const textContent = slice.content.textBetween(0, slice.content.size, '\n');
-          const openTag = `<span style="color: ${selectedColor}">`;
-          const closeTag = `</span>`;
-          const colored = `${openTag}${textContent}${closeTag}`;
+          
+          // Check if the selected text already has a span with style
+          const existingSpanMatch = textContent.match(/<span[^>]*style="([^"]*)"[^>]*>(.*?)<\/span>/);
+          let openTag: string;
+          let closeTag: string;
+          let finalText: string;
+          
+          if (existingSpanMatch) {
+            // If there's already a span with style, merge the styles
+            const existingStyle = existingSpanMatch[1];
+            const innerText = existingSpanMatch[2];
+            const mergedStyle = mergeStyles(existingStyle, `background-color: ${selectedColor}`);
+            openTag = `<span style="${mergedStyle}">`;
+            closeTag = `</span>`;
+            finalText = innerText;
+          } else {
+            // If no existing span, create new one
+            openTag = `<span style="background-color: ${selectedColor}">`;
+            closeTag = `</span>`;
+            finalText = textContent;
+          }
+          
+          const highlighted = `${openTag}${finalText}${closeTag}`;
 
-          tr.replaceSelectionWith(schema.text(colored)).setSelection(
+          tr.replaceSelectionWith(schema.text(highlighted)).setSelection(
             createSelection(tr, selection, pmState.TextSelection, openTag, closeTag)
           );
 
@@ -134,12 +180,28 @@ export default function colorSyntaxPlugin(
       },
     },
     wysiwygCommands: {
-      color: ({ selectedColor }, { tr, selection, schema }, dispatch) => {
+      highlight: ({ selectedColor }, { tr, selection, schema }, dispatch) => {
         if (selectedColor) {
           const { from, to } = selection;
-          const attrs = { htmlAttrs: { style: `color: ${selectedColor}` } };
+          const doc = tr.doc;
+          
+          // Check if there's already a span mark in the selection
+          let existingStyle = '';
+          doc.nodesBetween(from, to, (node: any, pos: number) => {
+            if (node.marks) {
+              const spanMark = node.marks.find((mark: any) => mark.type.name === 'span');
+              if (spanMark && spanMark.attrs.htmlAttrs && spanMark.attrs.htmlAttrs.style) {
+                existingStyle = spanMark.attrs.htmlAttrs.style;
+              }
+            }
+          });
+          
+          const mergedStyle = mergeStyles(existingStyle, `background-color: ${selectedColor}`);
+          const attrs = { htmlAttrs: { style: mergedStyle } };
           const mark = schema.marks.span.create(attrs);
 
+          // Remove existing span marks first to avoid duplication
+          tr.removeMark(from, to, schema.marks.span);
           tr.addMark(from, to, mark);
           dispatch!(tr);
 

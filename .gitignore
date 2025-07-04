@@ -6,9 +6,6 @@ yarn-error.log*
 pnpm-debug.log*
 
 # Build outputs
-dist/
-build/
-lib/
 *.tsbuildinfo
 
 # Coverage directory used by tools like istanbul
@@ -104,8 +101,3 @@ Thumbs.db
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
-
-# Editor plugin specific
-*.map
-*.bundle.js
-*.bundle.css 

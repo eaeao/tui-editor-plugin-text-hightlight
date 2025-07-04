@@ -2,7 +2,7 @@
 <html>
   <head lang="en">
     <meta charset="UTF-8" />
-    <title>Editor</title>
+    <title>Editor - Text Highlight Plugin (ESM)</title>
     <!-- Plugin -->
     <link
       rel="stylesheet"
@@ -16,14 +16,14 @@
     <!-- Editor -->
     <script type="module">
       import { Editor } from 'http://localhost:8080/dist/index.js';
-      import colorPickerPlugin from '/dist/index.js';
+      import highlightPlugin from '/dist/index.js';
 
       const editor = new Editor({
         el: document.querySelector('#editor'),
         previewStyle: 'vertical',
         height: '500px',
-        initialValue: 'Select some text and choose a color from the toolbar.',
-        plugins: [colorPickerPlugin]
+        initialValue: 'Select some text and choose a highlight color from the toolbar. The text will be highlighted with the chosen background color.',
+        plugins: [highlightPlugin]
       });
       window.editor = editor;
     </script>

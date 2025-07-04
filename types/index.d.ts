@@ -4,4 +4,4 @@ export interface PluginOptions {
   preset?: string[];
 }
 
-export default function colorPlugin(context: PluginContext, options: PluginOptions): PluginInfo;
+export default function highlightSyntaxPlugin(context: PluginContext, options: PluginOptions): PluginInfo;

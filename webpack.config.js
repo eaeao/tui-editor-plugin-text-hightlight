@@ -13,7 +13,7 @@ const filename = `toastui-editor-plugin-text-highlight`;
 function getOutputConfig(isProduction, isCDN, minify) {
   const defaultConfig = {
     library: {
-      name: ['toastui', 'Editor', 'plugin', 'uml'],
+      name: ['toastui', 'Editor', 'plugin', 'highlightSyntax'],
       export: 'default',
       type: 'umd',
     },
@@ -27,7 +27,7 @@ function getOutputConfig(isProduction, isCDN, minify) {
     const config = {
       ...defaultConfig,
       library: {
-        name: ['toastui', 'Editor', 'plugin', 'colorSyntax'],
+        name: ['toastui', 'Editor', 'plugin', 'highlightSyntax'],
         export: 'default',
         type: 'umd',
       },
@@ -126,7 +126,7 @@ module.exports = (env) => {
     config.plugins.push(
       new webpack.BannerPlugin(
         [
-          'TOAST UI Editor : Color Syntax Plugin',
+          'TOAST UI Editor : Text Highlight Plugin',
           `@version ${version} | ${new Date().toDateString()}`,
           `@author ${author}`,
           `@license ${license}`,

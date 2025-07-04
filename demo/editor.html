@@ -2,12 +2,12 @@
 <html>
   <head lang="en">
     <meta charset="UTF-8" />
-    <title>Editor</title>
+    <title>Editor - Text Highlight Plugin</title>
     <!-- Editor -->
     <link rel="stylesheet" href="http://localhost:8080/dist/cdn/toastui-editor.css" />
     <!-- Plugin -->
     <link rel="stylesheet" href="https://uicdn.toast.com/tui-color-picker/v2.2.6/tui-color-picker.css" />
-    <link rel="stylesheet" href="../dist/cdn/toastui-editor-plugin-color-syntax.css" />
+    <link rel="stylesheet" href="../dist/cdn/toastui-editor-plugin-text-highlight.css" />
   </head>
   <body>
     <div class="code-html">
@@ -17,18 +17,18 @@
     <script src="http://localhost:8080/dist/cdn/toastui-editor-all.js"></script>
     <script src="https://uicdn.toast.com/tui-color-picker/v2.2.6/tui-color-picker.min.js"></script>
     <!-- Plugin -->
-    <script src="../dist/cdn/toastui-editor-plugin-color-syntax.js"></script>
+    <script src="../dist/cdn/toastui-editor-plugin-text-highlight.js"></script>
     <script class="code-js">
       const { Editor } = toastui;
-      const { colorSyntax } = Editor.plugin;
+      const { highlightSyntax } = Editor.plugin;
 
       const editor = new Editor({
         el: document.querySelector('#editor'),
         previewStyle: 'vertical',
         height: '500px',
         initialEditType: 'wysiwyg',
-        initialValue: 'Select some text and choose a color from the toolbar.',
-        plugins: [colorSyntax]
+        initialValue: 'Select some text and choose a highlight color from the toolbar. The text will be highlighted with the chosen background color.',
+        plugins: [highlightSyntax]
       });
     </script>
   </body>
